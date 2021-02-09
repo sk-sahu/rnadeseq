@@ -281,7 +281,7 @@ process Pathway_analysis {
 
     script:
     def genelistopt = params.genelist ? "--genelist $genelist" : ''
-    def keggblacklistopt = params.keggblacklist ? "--kegg_blacklist $keggblacklist" : ''
+    def keggblacklistopt = params.kegg_blacklist ? "--kegg_blacklist $keggblacklist" : ''
     """
     unzip $deseq_output
     pathway_analysis.R --dirContrasts 'differential_gene_expression/DE_genes_tables/' --metadata $metadata \
