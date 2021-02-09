@@ -123,8 +123,6 @@ ch_genes_for_deseq2_file = params.genelist ? Channel.fromPath(params.genelist, c
 ch_genes_for_report_file = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
 ch_genes_for_pathway = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
 
-ch_fastqc_file = file(params.fastqc)
-
 /*
  * Check mandatory parameters
  */
