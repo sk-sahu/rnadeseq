@@ -112,16 +112,16 @@ Channel.fromPath("${params.multiqc}", checkIfExists: true)
             .set { ch_multiqc_file }
 
 // Optional parameters
-ch_contrast_matrix_for_deseq2 = params.contrast_matrix ? Channel.fromPath(params.contrast_matrix, checkIfExists: true) : Channel.empty()
-ch_contrast_list_for_deseq2 = params.contrast_list ? Channel.fromPath(params.contrast_list, checkIfExists: true) : Channel.empty()
-ch_contrast_pairs_for_deseq2 = params.contrast_pairs ? Channel.fromPath(params.contrast_pairs, checkIfExists: true) : Channel.empty()
-ch_relevel_for_deseq2 = params.relevel ? Channel.fromPath(params.relevel, checkIfExists: true) : Channel.empty()
-ch_quote_file = params.quote ? Channel.fromPath(params.quote, checkIfExists: true) : Channel.empty()
-ch_report_options_file = params.report_options ? Channel.fromPath(params.report_options, checkIfExists: true) : Channel.empty()
-ch_kegg_blacklist_for_pathway = params.kegg_blacklist ? Channel.fromPath(params.kegg_blacklist, checkIfExists: true) : Channel.empty()
-ch_genes_for_deseq2_file = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
-ch_genes_for_report_file = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
-ch_genes_for_pathway = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
+ch_contrast_matrix_for_deseq2 = params.contrast_matrix ? Channel.fromPath(params.contrast_matrix, checkIfExists: true) : Channel.value(1)
+ch_contrast_list_for_deseq2 = params.contrast_list ? Channel.fromPath(params.contrast_list, checkIfExists: true) : Channel.value(1)
+ch_contrast_pairs_for_deseq2 = params.contrast_pairs ? Channel.fromPath(params.contrast_pairs, checkIfExists: true) : Channel.value(1)
+ch_relevel_for_deseq2 = params.relevel ? Channel.fromPath(params.relevel, checkIfExists: true) : Channel.value(1)
+ch_quote_file = params.quote ? Channel.fromPath(params.quote, checkIfExists: true) : Channel.value(1)
+ch_report_options_file = params.report_options ? Channel.fromPath(params.report_options, checkIfExists: true) : Channel.value(1)
+ch_kegg_blacklist_for_pathway = params.kegg_blacklist ? Channel.fromPath(params.kegg_blacklist, checkIfExists: true) : Channel.value(1)
+ch_genes_for_deseq2_file = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.value(1)
+ch_genes_for_report_file = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.value(1)
+ch_genes_for_pathway = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.value(1)
 
 /*
  * Check mandatory parameters
