@@ -112,22 +112,16 @@ Channel.fromPath("${params.multiqc}", checkIfExists: true)
             .set { ch_multiqc_file }
 
 // Optional parameters
-Channel.fromPath("${params.contrast_matrix}")
-            .set { ch_contrast_matrix_for_deseq2 }
-Channel.fromPath("${params.contrast_list}")
-            .set { ch_contrast_list_for_deseq2 }
-Channel.fromPath("${params.contrast_pairs}")
-            .set { ch_contrast_pairs_for_deseq2 }
-Channel.fromPath("${params.relevel}")
-            .set { ch_relevel_for_deseq2 }
-Channel.fromPath("${params.quote}")
-           .set { ch_quote_file }
-Channel.fromPath("${params.genelist}")
-            .into { ch_genes_for_deseq2_file; ch_genes_for_report_file; ch_genes_for_pathway }
-Channel.fromPath("${params.report_options}", checkIfExists: true)
-            .set { ch_report_options_file }
-Channel.fromPath("${params.kegg_blacklist}")
-            .set { ch_kegg_blacklist_for_pathway }
+ch_contrast_matrix_for_deseq2 = params.contrast_matrix ? Channel.fromPath(params.contrast_matrix, checkIfExists: true) : Channel.empty()
+ch_contrast_list_for_deseq2 = params.contrast_list ? Channel.fromPath(params.contrast_list, checkIfExists: true) : Channel.empty()
+ch_contrast_pairs_for_deseq2 = params.contrast_pairs ? Channel.fromPath(params.contrast_pairs, checkIfExists: true) : Channel.empty()
+ch_relevel_for_deseq2 = params.relevel ? Channel.fromPath(params.relevel, checkIfExists: true) : Channel.empty()
+ch_quote_file = params.quote ? Channel.fromPath(params.quote, checkIfExists: true) : Channel.empty()
+report_options = params.report_options ? Channel.fromPath(params.report_options, checkIfExists: true) : Channel.empty()
+ch_kegg_blacklist_for_pathway = params.kegg_blacklist ? Channel.fromPath(params.kegg_blacklist, checkIfExists: true) : Channel.empty()
+ch_genes_for_deseq2_file = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
+ch_genes_for_report_file = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
+ch_genes_for_pathway = params.genelist ? Channel.fromPath(params.genelist, checkIfExists: true) : Channel.empty()
 
 ch_fastqc_file = file(params.fastqc)
 
@@ -256,11 +250,11 @@ process DESeq2 {
     file "contrast_names.txt" into ch_contrnames_for_report
 
     script:
-    def gene_list_opt = genelist.name != 'NO_FILE' ? "--genelist $genelist" : ''
-    def contrast_mat_opt = contrast_matrix.name != 'DEFAULT' ? "--contrasts_matrix $contrast_matrix" : ''
-    def contrast_list_opt = contrast_list.name != 'DEFAULT1' ? "--contrasts_list $contrast_list" : ''
-    def contrast_pairs_opt = contrast_pairs.name != 'DEFAULT2' ? "--contrasts_pairs $contrast_pairs" : ''
-    def relevel_opt = relevel.name != 'NO_FILE2' ? "--relevel $relevel" : ''
+    def gene_list_opt = params.genelist ? "--genelist $genelist" : ''
+    def contrast_mat_opt = params.contrast_matrix ? "--contrasts_matrix $contrast_matrix" : ''
+    def contrast_list_opt = params.contrast_list ? "--contrasts_list $contrast_list" : ''
+    def contrast_pairs_opt = params.contrast_pairs ? "--contrasts_pairs $contrast_pairs" : ''
+    def relevel_opt = params.relevel ? "--relevel $relevel" : ''
     def batch_effect_opt = params.batch_effect ? "--batchEffect" : ''
     """
     DESeq2.R --counts $gene_counts --metadata $metadata --design $model \
@@ -288,8 +282,8 @@ process Pathway_analysis {
     file "*.zip" into ch_pathway_analysis_for_report
 
     script:
-    def genelistopt = genelist.name != 'NO_FILE' ? "--genelist $genelist" : ''
-    def keggblacklistopt = keggblacklist.name != 'NO_FILE3' ? "--kegg_blacklist $keggblacklist" : ''
+    def genelistopt = params.genelist ? "--genelist $genelist" : ''
+    def keggblacklistopt = params.keggblacklist "--kegg_blacklist $keggblacklist" : ''
     """
     unzip $deseq_output
     pathway_analysis.R --dirContrasts 'differential_gene_expression/DE_genes_tables/' --metadata $metadata \
@@ -323,9 +317,9 @@ process Report {
     file "RNAseq_report.html" into rnaseq_report
 
     script:
-    def genelistopt = genelist.name != 'NO_FILE' ? "--genelist $genelist" : ''
+    def genelistopt = params.genelist ? "--genelist $genelist" : ''
     def batchopt = params.batch_effect ? "--batch_effect" : ''
-    def quoteopt = quote.name != 'NO_FILE4' ? "$quote" : ''
+    def quoteopt = params.quote ? "$quote" : ''
     """
     unzip $deseq2
     unzip $multiqc
