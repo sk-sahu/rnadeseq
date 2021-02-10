@@ -334,6 +334,9 @@ process Report {
     unzip $gprofiler
     mkdir QC
     mv MultiQC/multiqc_plots/ MultiQC/multiqc_data/ MultiQC/multiqc_report.html QC/
+    echo "list out files -----"
+    ls -l
+    echo "current dir - $PWD"
     Execute_report.R --report $report_rmd \
     --output 'RNAseq_report.html' \
     --proj_summary $proj_summary \
