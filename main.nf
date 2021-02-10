@@ -295,6 +295,10 @@ process Pathway_analysis {
 /*
  * STEP 3 - RNAseq Report
  */
+
+params.report_rmd = 'https://raw.githubusercontent.com/sk-sahu/rnadeseq/optional-file-handling/assets/RNAseq_report.Rmd'
+ch_report_rmd = Channel.fromPath(params.report_rmd)
+ 
 process Report {
     publishDir "${params.outdir}/report", mode: 'copy'
 
@@ -309,6 +313,7 @@ process Report {
     file(genelist) from ch_genes_for_report_file
     file(gprofiler) from ch_pathway_analysis_for_report
     file(quote) from ch_quote_file
+    file(report_rmd) from ch_report_rmd
 
     output:
     file "*.zip"
@@ -324,11 +329,7 @@ process Report {
     unzip $gprofiler
     mkdir QC
     mv MultiQC/multiqc_plots/ MultiQC/multiqc_data/ MultiQC/multiqc_report.html QC/
-    echo "list of files in bsaedir ----"
-    ls $baseDir
-    echo "list of files in assets ----"
-    ls $baseDir/assets/
-    Execute_report.R --report '$baseDir/assets/RNAseq_report.Rmd' \
+    Execute_report.R --report $report_rmd \
     --output 'RNAseq_report.html' \
     --proj_summary $proj_summary \
     --versions $softwareversions \
