@@ -7,10 +7,10 @@ output:
     theme: default
     number_sections: true                   # add section numbering to headers
     df_print: paged                         # tables are printed as an html table with support for pagination over rows and columns
-    css: ./corp-styles.css
+    css: https://raw.githubusercontent.com/sk-sahu/rnadeseq/optional-file-handling/assets/corp-styles.css
     highlight: pygments
     pdf_document: true
-bibliography: ./references.bibtex
+bibliography: https://raw.githubusercontent.com/sk-sahu/rnadeseq/optional-file-handling/assets/references.bibtex
 params:
   path_proj_summary: ""
   path_versions: ""
@@ -66,7 +66,7 @@ author: "`r PM`, Bioinformatics Research Scientist"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 ---
 
-<img src="./logo.png" style="position:absolute;top:0px;right:0px;" height="200" width="200" />
+<img src="https://raw.githubusercontent.com/sk-sahu/rnadeseq/optional-file-handling/assets/logo.png" style="position:absolute;top:0px;right:0px;" height="200" width="200" />
 <div class="watermark">QBiC</div>
 
 ```{r docSetup, bootstrap.show.code = FALSE, dev = 'png', bootstrap.show.message=FALSE, echo=FALSE, message=FALSE}
