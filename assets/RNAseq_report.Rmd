@@ -7,10 +7,10 @@ output:
     theme: default
     number_sections: true                   # add section numbering to headers
     df_print: paged                         # tables are printed as an html table with support for pagination over rows and columns
-    css: ./corp-styles.css
+    css: "./corp-styles.css"
     highlight: pygments
     pdf_document: true
-bibliography: ./references.bibtex
+bibliography: "./references.bib"
 params:
   path_proj_summary: ""
   path_versions: ""
