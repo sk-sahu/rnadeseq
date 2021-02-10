@@ -296,8 +296,10 @@ process Pathway_analysis {
  * STEP 3 - RNAseq Report
  */
 
-params.report_rmd = 'https://raw.githubusercontent.com/sk-sahu/rnadeseq/optional-file-handling/assets/RNAseq_report.Rmd'
 ch_report_rmd = Channel.fromPath(params.report_rmd)
+ch_report_css = Channel.fromPath(params.report_css)
+ch_report_bib = Channel.fromPath(params.report_bib)
+ch_report_logo = Channel.fromPath(params.report_logo)
  
 process Report {
     publishDir "${params.outdir}/report", mode: 'copy'
@@ -314,6 +316,9 @@ process Report {
     file(gprofiler) from ch_pathway_analysis_for_report
     file(quote) from ch_quote_file
     file(report_rmd) from ch_report_rmd
+    file(report_css) from ch_report_css
+    file(report_bib) from ch_report_bib
+    file(report_logo) from ch_report_logo
 
     output:
     file "*.zip"
